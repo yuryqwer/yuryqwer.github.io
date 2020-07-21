@@ -34,7 +34,7 @@ def main():
 
 这个例子中主要部分发生在`finally`代码块中。`proc.terminate()`给子进程发送一个`SIGTERM`信号。然后，`proc.communicate`等待子进程退出并捕获所有的标准输出。自从Python3.3开始，`communicate`引入一个非常方便的`timeout`参数，<span style="border-bottom:2px dashed;" id="rejump1">[[1]](#jump1)</span>这样因为某些原因子进程没能退出我们也可以知道。如果`SIGTERM`不能退出子进程，更复杂的技术是发送`SIGKILL`信号（通过`proc.kill`）。
 
-如果你在POSIX上运行脚本，你会看到这样的输出，Windows则是1：
+如果你在支持POSIX标准的机器上运行脚本，你会看到这样的输出，Windows则是1：
 ```
 PS C:\Users\YL> python -u interact-http-server.py
 == subprocess exited with rc = -15
