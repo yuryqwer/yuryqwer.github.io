@@ -136,7 +136,7 @@ def main():
 
 在最后，我们关闭了子进程的`stdin`（这是可选的，但对某些子进程很有用），调用了`terminate`，然后`wait`。更好的做法是给子进程发送某种退出命令（在Python解释器的例子中是`quit()`）；这边的`terminate`是为了演示如果其他选项不可用，我们必须做什么。注意这边我们也可以用`communicate`而不是`wait`来捕获标准错误的输出。
 
-# 用非阻塞的读取和可停止的线程来交互
+## 用非阻塞的读取和可停止的线程来交互
 最后的例子演示了一个略微更高级的方案。假设我们正在测试一个长期运行的套接字服务器，我们感兴趣的是和它复杂的交互，可能有多个并存的客户端。我们也想彻底关闭整个线程和子进程。[完整的代码在这里](https://github.com/eliben/code-for-blog/blob/master/2017/python-interact-subprocess/interact-socket-server-noblock.py)，下面是几个有代表性的代码片段，关键的组成部分是这个套接字读取函数，它可以在自己的线程中运行：
 ```python
 def socket_reader(sockobj, outq, exit_event):
