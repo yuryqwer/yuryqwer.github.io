@@ -32,7 +32,7 @@ def main():
 
 注意调用Python时传递的`-u`参数：这可以避免标准输出缓存，当子进程被杀死时可以让我们尽可能看到更多的标准输出。和子进程交互时缓存容易引起大问题，我们之后会看到更多这方面的例子。
 
-这个例子中主要部分发生在`finally`代码块中。`proc.terminate()`给子进程发送一个`SIGTERM`信号。然后，`proc.communicate`等待子进程退出并捕获所有的标准输出。自从Python3.3开始，`communicate`引入一个非常方便的`timeout`参数，<span style="border-bottom:2px dashed;">[1](#jump1)</span>这样因为某些原因子进程没能退出我们也可以知道。如果`SIGTERM`不能退出子进程，更复杂的技术是发送`SIGKILL`信号（通过`proc.kill`）。
+这个例子中主要部分发生在`finally`代码块中。`proc.terminate()`给子进程发送一个`SIGTERM`信号。然后，`proc.communicate`等待子进程退出并捕获所有的标准输出。自从Python3.3开始，`communicate`引入一个非常方便的`timeout`参数，<span style="border-bottom:2px dashed;">[[1]](#jump1)</span>这样因为某些原因子进程没能退出我们也可以知道。如果`SIGTERM`不能退出子进程，更复杂的技术是发送`SIGKILL`信号（通过`proc.kill`）。
 
 如果你在POSIX上运行脚本，你会看到这样的输出，Windows则是1：
 ```
@@ -151,7 +151,7 @@ def socket_reader(sockobj, outq, exit_event):
         except OSError as e:
             break
 ```
-用的时候最好设置超时时间，这个函数会反复监视套接字，发现新数据就推送到`outq`中，<span style="border-bottom:2px dashed;">[2](#jump2)</span>这边的`outq`是`queue.Queue`。当套接字关闭（`recv`返回空的字节字符串）或者`exit_event`（一个`threading.Event`）被调用者设置的时候函数都会退出。
+用的时候最好设置超时时间，这个函数会反复监视套接字，发现新数据就推送到`outq`中，<span style="border-bottom:2px dashed;">[[2]](#jump2)</span>这边的`outq`是`queue.Queue`。当套接字关闭（`recv`返回空的字节字符串）或者`exit_event`（一个`threading.Event`）被调用者设置的时候函数都会退出。
 
 调用者可以在线程中启动这个函数并且偶尔尝试以非阻塞的形式从队列读取新的元素：
 ```python
